@@ -1,6 +1,30 @@
 import React, { Component } from 'react'
 
 export class Register extends Component {
+  constructor(props){
+    super(props);
+    this.handleSubmit = {
+      username: '',
+      email: '',
+      password: ''
+    };
+  }
+
+  handleSubmit(event){
+    event.preventDefault();
+    fetch('http://localhost:4000/api/v1/register',{
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: {
+        "username":this.username.value,
+        "email":this.email.value,
+        "password":this.password.value
+      }.then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err))
+    })
+  }
+
   render() {
     return (
       <div className="bg-default">
@@ -46,24 +70,27 @@ export class Register extends Component {
               </div>
             </div>
             <div className="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form role="form" onSubmit={this.handleSubmit}>
                 <div className="form-group mb-3">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" placeholder="Name" type="text"/>
+                    <input className="form-control" placeholder="Username" 
+                    ref={(ref) => {this.username = ref}} type="text"/>
                   </div>
                 </div>
                 <div className="form-group mb-3">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" placeholder="Email" type="email"/>
+                    <input className="form-control" placeholder="Email" 
+                    ref={(ref) => {this.email = ref}} type="email"/>
                   </div>
                 </div>
                 <div className="form-group">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" placeholder="Password" type="password"/>
+                    <input className="form-control" placeholder="Password" 
+                    ref={(ref) => {this.password = ref}} type="password"/>
                   </div>
                 </div>
                 <div className="text-center">
-                  <button type="button" className="btn btn-primary my-4">Sign Up</button>
+                  <button type="Submit" className="btn btn-primary my-4">Sign Up</button>
                 </div>
               </form>
             </div>

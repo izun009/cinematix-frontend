@@ -142,7 +142,17 @@ export class Kursi extends Component {
         <div className="col">
           <div className="card bg-default shadow">
             <div className="card-header bg-transparent border-0">
-              <h3 className="text-white mb-0">Table Kursi</h3>
+            <div className="row align-items-center">
+                  <div className="col">
+                    <h3 className="text-white mb-0">Tabel Kursi</h3>
+                  </div>
+                  <div className="col text-right">
+                    <a href="#!" className="btn btn-sm btn-primary">Tambah</a>
+                    <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                    <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    <a href="#!" className="btn btn-sm btn-primary">Tampil</a>
+                  </div>
+                </div>
             </div>
             <div className="table-responsive">
               <table className="table align-items-center table-dark table-flush">
