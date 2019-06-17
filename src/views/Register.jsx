@@ -1,29 +1,40 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 
 export class Register extends Component {
   constructor(props){
     super(props);
-    this.handleSubmit = {
+
+    this.state = {
       username: '',
       email: '',
       password: ''
     };
   }
 
-  handleSubmit(event){
+
+  handleSubmit = event => {
     event.preventDefault();
-    fetch('http://localhost:4000/api/v1/register',{
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: {
-        "username":this.username.value,
-        "email":this.email.value,
-        "password":this.password.value
-      }.then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err))
-    })
+    const apiku = 'http://localhost:4000/api/v1/register';
+    const self = this;
+    const payload = {
+      'username' : this.state.username,
+      'email' : this.state.email,
+      'password' : this.state.password
+    }
+    axios.post(apiku, payload)
+    .then((res) => {
+      console.log(res);
+      if(res.data.code == 200){
+        console.log('Success Registration');
+      }
+      alert('Success');
+      window.location.href = 'localhost:3000';
+    }).catch((err) => {
+      console.log(err);
+    });
   }
+ 
 
   render() {
     return (
@@ -70,27 +81,31 @@ export class Register extends Component {
               </div>
             </div>
             <div className="card-body px-lg-5 py-lg-5">
-              <form role="form" onSubmit={this.handleSubmit}>
+              <form role="form">
                 <div className="form-group mb-3">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" placeholder="Username" 
-                    ref={(ref) => {this.username = ref}} type="text"/>
+                    <input className="form-control" name="username"
+                    onChange={(event,newValue)=> this.setState({username:newValue})} 
+                    placeholder="Username" type="text"/>
                   </div>
                 </div>
                 <div className="form-group mb-3">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" placeholder="Email" 
-                    ref={(ref) => {this.email = ref}} type="email"/>
+                    <input className="form-control" name="email"
+                    onChange={(event,newValue)=> this.setState({email:newValue})} 
+                    placeholder="Email" type="email"/>
                   </div>
                 </div>
                 <div className="form-group">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" placeholder="Password" 
-                    ref={(ref) => {this.password = ref}} type="password"/>
+                    <input className="form-control" name="password"
+                    onChange={(event,newValue)=> this.setState({password:newValue})} 
+                    placeholder="Password" type="password"/>
                   </div>
                 </div>
                 <div className="text-center">
-                  <button type="Submit" className="btn btn-primary my-4">Sign Up</button>
+                  <button type="submit" className="btn btn-primary my-4" 
+                  onClick={(event)=>this.handleSubmit(event)}>Sign Up</button>
                 </div>
               </form>
             </div>

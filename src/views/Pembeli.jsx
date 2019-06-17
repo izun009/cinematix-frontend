@@ -147,12 +147,6 @@ export class Pembeli extends Component {
                   <div className="col">
                     <h3 className="text-white mb-0">Tabel Pembeli</h3>
                   </div>
-                  <div className="col text-right">
-                    <a href="#!" className="btn btn-sm btn-primary">Tambah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Tampil</a>
-                  </div>
                 </div>      
               </div>
               
@@ -164,6 +158,7 @@ export class Pembeli extends Component {
                     <th scope="col">Email</th>
                     <th scope="col">Password</th>
                     <th scope="col">Saldo</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -197,35 +192,9 @@ export class Pembeli extends Component {
                         </div>
                       </div>
                     </td>
-                  </tr>
-                  <tr>
                     <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -257,35 +226,9 @@ export class Pembeli extends Component {
                         </div>
                       </div>
                     </td>
-                  </tr>
-                  <tr>
                     <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -317,35 +260,9 @@ export class Pembeli extends Component {
                         </div>
                       </div>
                     </td>
-                  </tr>
-                  <tr>
                     <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -376,6 +293,112 @@ export class Pembeli extends Component {
                           <span className="mb-0 text-sm">Rp. 1,000,000</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">0000001</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">qwerty123</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">0000001</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">qwerty123</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">0000001</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">qwerty123</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="media align-items-center">
+                        <div className="media-body">
+                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
 

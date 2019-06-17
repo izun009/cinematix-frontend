@@ -146,12 +146,6 @@ export class Studio extends Component {
                   <div className="col">
                     <h3 className="text-white mb-0">Tabel Studio</h3>
                   </div>
-                  <div className="col text-right">
-                    <a href="#!" className="btn btn-sm btn-primary">Tambah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Tampil</a>
-                  </div>
                 </div>
             </div>
             <div className="table-responsive">
@@ -159,10 +153,8 @@ export class Studio extends Component {
                 <thead className="thead-dark">
                   <tr>
                     <th scope="col">ID Studio</th>
-                    <th/>
-                    <th/>
                     <th scope="col">Nomer Studio</th>
-
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,14 +167,16 @@ export class Studio extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">AA001</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -193,14 +187,16 @@ export class Studio extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">AA002</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -211,8 +207,6 @@ export class Studio extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
@@ -220,7 +214,12 @@ export class Studio extends Component {
                         </div>
                       </div>
                     </td>
-                  </tr><tr>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
+                  </tr>
+                  <tr>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
@@ -228,14 +227,16 @@ export class Studio extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">CC004</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -246,14 +247,16 @@ export class Studio extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">BB005</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -264,14 +267,16 @@ export class Studio extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">BB006</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                 </tbody>

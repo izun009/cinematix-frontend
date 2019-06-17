@@ -146,12 +146,6 @@ export class Kursi extends Component {
                   <div className="col">
                     <h3 className="text-white mb-0">Tabel Kursi</h3>
                   </div>
-                  <div className="col text-right">
-                    <a href="#!" className="btn btn-sm btn-primary">Tambah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Tampil</a>
-                  </div>
                 </div>
             </div>
             <div className="table-responsive">
@@ -159,10 +153,8 @@ export class Kursi extends Component {
                 <thead className="thead-dark">
                   <tr>
                     <th scope="col">ID Kursi</th>
-                    <th/>
-                    <th/>
                     <th scope="col">Nomer Kursi</th>
-
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,14 +167,16 @@ export class Kursi extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">A001</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -193,14 +187,16 @@ export class Kursi extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">A002</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -211,8 +207,6 @@ export class Kursi extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
@@ -220,7 +214,12 @@ export class Kursi extends Component {
                         </div>
                       </div>
                     </td>
-                  </tr><tr>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
+                  </tr>
+                  <tr>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
@@ -228,14 +227,16 @@ export class Kursi extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">A004</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -246,14 +247,16 @@ export class Kursi extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">B005</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -264,14 +267,16 @@ export class Kursi extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
                           <span className="mb-0 text-sm">B006</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                 </tbody>

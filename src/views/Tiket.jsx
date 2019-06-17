@@ -146,12 +146,6 @@ export class Tiket extends Component {
                   <div className="col">
                     <h3 className="text-white mb-0">Tabel Tiket</h3>
                   </div>
-                  <div className="col text-right">
-                    <a href="#!" className="btn btn-sm btn-primary">Tambah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Tampil</a>
-                  </div>
                 </div>
             </div>
             <div class="table-responsive">
@@ -163,6 +157,7 @@ export class Tiket extends Component {
                     <th scope="col">Harga</th>
                     <th scope="col">ID Pemesanan</th>
                     <th scope="col">ID Film</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -205,6 +200,10 @@ export class Tiket extends Component {
                         </div>
                       </div>
                     </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
@@ -243,6 +242,10 @@ export class Tiket extends Component {
                           <span class="mb-0 text-sm">2</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -283,6 +286,10 @@ export class Tiket extends Component {
                         </div>
                       </div>
                     </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
@@ -322,6 +329,10 @@ export class Tiket extends Component {
                         </div>
                       </div>
                     </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
@@ -360,6 +371,10 @@ export class Tiket extends Component {
                           <span class="mb-0 text-sm">5</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                 </tbody>

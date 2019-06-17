@@ -146,12 +146,6 @@ export class Pemesanan extends Component {
                   <div className="col">
                     <h3 className="text-white mb-0">Tabel Pemesanan</h3>
                   </div>
-                  <div className="col text-right">
-                    <a href="#!" className="btn btn-sm btn-primary">Tambah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Tampil</a>
-                  </div>
                 </div>
             </div>
             <div className="table-responsive">
@@ -161,7 +155,7 @@ export class Pemesanan extends Component {
                     <th scope="col">ID Pemesanan</th>
                     <th scope="col">ID Jadwal Film</th>
                     <th scope="col">ID Studio Kursi</th>
-                    <th/>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -188,7 +182,10 @@ export class Pemesanan extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
@@ -212,7 +209,10 @@ export class Pemesanan extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
@@ -236,7 +236,10 @@ export class Pemesanan extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
@@ -260,7 +263,10 @@ export class Pemesanan extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
                   </tr>
                   <tr>
                     <td>
@@ -284,7 +290,10 @@ export class Pemesanan extends Component {
                         </div>
                       </div>
                     </td>
-                    <td></td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    </td>
                   </tr>
                 </tbody>
               </table>

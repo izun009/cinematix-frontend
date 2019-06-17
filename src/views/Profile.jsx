@@ -196,6 +196,7 @@ export class Profile extends Component {
                       </div>
                     </div>
                   </div>
+                  <a href="#!" class="btn btn-info">Edit</a>
                   <a href="#!" class="btn btn-info">Save</a>
                 </div>
               </form>

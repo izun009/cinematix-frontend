@@ -146,12 +146,6 @@ export class Film extends Component {
                   <div className="col">
                     <h3 className="text-white mb-0">Tabel Film</h3>
                   </div>
-                  <div className="col text-right">
-                    <a href="#!" className="btn btn-sm btn-primary">Tambah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    <a href="#!" className="btn btn-sm btn-primary">Tampil</a>
-                  </div>
                 </div>
             </div>
             <div class="table-responsive">
@@ -161,8 +155,9 @@ export class Film extends Component {
                     <th scope="col">ID Film</th>
                     <th scope="col">Judul</th>
                     <th scope="col">Sinopsis</th>
-                    <th scope="col">Jam Mulai</th>
+                    <th scope="col">Mulai</th>
                     <th scope="col">Durasi</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -186,11 +181,10 @@ export class Film extends Component {
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="mb-0 text-sm">
-                            <p>Lorem ipsum dolor sit amet, consectetur <br/>
-                              adipiscing elit,sed do eiusmod tempor <br/>
-                              incididunt ut labore et dolore magna aliqua.<br/>
-                              Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                            </p>
+                            Lorem ipsum dolor sit amet, consectetur <br/>
+                            adipiscing elit,sed do eiusmod tempor <br/>
+                            incididunt ut labore et dolore magna aliqua.<br/>
+                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
                           </span>
                         </div>
                       </div>
@@ -208,6 +202,10 @@ export class Film extends Component {
                           <span class="mb-0 text-sm">125</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -229,11 +227,10 @@ export class Film extends Component {
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="mb-0 text-sm">
-                            <p>Lorem ipsum dolor sit amet, consectetur <br/>
-                              adipiscing elit,sed do eiusmod tempor <br/>
-                              incididunt ut labore et dolore magna aliqua.<br/>
-                              Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                            </p>
+                            Lorem ipsum dolor sit amet, consectetur <br/>
+                            adipiscing elit,sed do eiusmod tempor <br/>
+                            incididunt ut labore et dolore magna aliqua.<br/>
+                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
                           </span>
                         </div>
                       </div>
@@ -251,6 +248,10 @@ export class Film extends Component {
                           <span class="mb-0 text-sm">130</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -272,11 +273,10 @@ export class Film extends Component {
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="mb-0 text-sm">
-                            <p>Lorem ipsum dolor sit amet, consectetur <br/>
-                              adipiscing elit,sed do eiusmod tempor <br/>
-                              incididunt ut labore et dolore magna aliqua.<br/>
-                              Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                            </p>
+                            Lorem ipsum dolor sit amet, consectetur <br/>
+                            adipiscing elit,sed do eiusmod tempor <br/>
+                            incididunt ut labore et dolore magna aliqua.<br/>
+                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
                           </span>
                         </div>
                       </div>
@@ -294,6 +294,10 @@ export class Film extends Component {
                           <span class="mb-0 text-sm">120</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -315,11 +319,10 @@ export class Film extends Component {
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="mb-0 text-sm">
-                            <p>Lorem ipsum dolor sit amet, consectetur <br/>
-                              adipiscing elit,sed do eiusmod tempor <br/>
-                              incididunt ut labore et dolore magna aliqua.<br/>
-                              Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                            </p>
+                            Lorem ipsum dolor sit amet, consectetur <br/>
+                            adipiscing elit,sed do eiusmod tempor <br/>
+                            incididunt ut labore et dolore magna aliqua.<br/>
+                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
                           </span>
                         </div>
                       </div>
@@ -337,6 +340,10 @@ export class Film extends Component {
                           <span class="mb-0 text-sm">121</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                   <tr>
@@ -358,11 +365,10 @@ export class Film extends Component {
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="mb-0 text-sm">
-                            <p>Lorem ipsum dolor sit amet, consectetur <br/>
-                              adipiscing elit,sed do eiusmod tempor <br/>
-                              incididunt ut labore et dolore magna aliqua.<br/>
-                              Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                            </p>
+                            Lorem ipsum dolor sit amet, consectetur <br/>
+                            adipiscing elit,sed do eiusmod tempor <br/>
+                            incididunt ut labore et dolore magna aliqua.<br/>
+                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
                           </span>
                         </div>
                       </div>
@@ -380,6 +386,10 @@ export class Film extends Component {
                           <span class="mb-0 text-sm">125</span>
                         </div>
                       </div>
+                    </td>
+                    <td>
+                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                 </tbody>
