@@ -1,6 +1,97 @@
 import React, { Component } from 'react'
+import Modal from 'react-modal';
+import Validation from 'react-validation';
 
 export class Pembeli extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      users : [],
+      modalIsOpen : false,
+      email : '',
+      password : '',
+      saldo : '',
+      id_pembeli : 0
+    }
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.logChange = this.logChange.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  openModal(pembeli){
+    alert('Test');
+    this.setState({
+      modalIsOpen : true,
+      email : pembeli.email,
+      password : pembeli.password,
+      saldo : pembeli.saldo,
+      id : pembeli.id_pembeli
+    });
+  }
+
+  closeModal(){
+    this.setState({
+      modalIsOpen : false
+    });
+  }
+
+  logChange(e){
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  handleEdit(evt){
+    evt.preventDefault();
+    var data = {
+      email : this.state.email,
+      password : this.state.password,
+      saldo : this.state.saldo,
+      id_pembeli : this.state.id_pembeli
+    }
+
+    fetch('http://localhost:4000/api/v1/pembeli', {
+      method : 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then((res) => {
+      if(res.status >= 400){
+        throw new Error("Bad Response From Server");
+      }
+      return res.json();
+    }).then((data) => {
+      console.log(data);
+      if(data == "Success"){
+        this.setState({
+          msg: "User has been edited"
+        });
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+
+  componentDidMount(){
+    let self = this;
+    fetch('http://localhost:4000/api/v1/pembeli', {
+      method : 'GET'
+    }).then((res) => {
+      if(res.status >= 400){
+        throw new Error("Bad Response From Server");
+      }
+      return res.json();
+    }).then((data) => {
+      self.setState({users: data});
+    }).catch(err => {
+      console.log('This is Error Code ', err);
+    })
+  }
+
   render() {
     return (
       <div>
@@ -163,245 +254,73 @@ export class Pembeli extends Component {
                 </thead>
                 <tbody>
                   {/* <!-- Pembeli --> */}
+                {this.state.users.map(pembeli =>
                   <tr>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
+                          <span className="mb-0 text-sm">{pembeli.id_pembeli}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
+                          <span className="mb-0 text-sm">{pembeli.email}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
+                          <span className="mb-0 text-sm">{pembeli.password}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
+                          <span className="mb-0 text-sm">{pembeli.saldo}</span>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
+                      <a onClick={() => this.openModal(pembeli)} className="btn btn-sm btn-primary">Ubah</a>
                       <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">0000001</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">izzudin@gmail.com</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">qwerty123</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">Rp. 1,000,000</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
+                )}
 
+                <div className="modal" action="POST" isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} onSubmit={this.handleEdit}>
+                <div className="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" className="form-control" onChange={this.logChange} value={this.state.email} aria-describedby="emailHelp" placeholder="Enter email" />
+                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div className="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" className="form-control" onChange={this.logChange} value={this.state.password} placeholder="Password" />
+                </div>
+                <div className="form-group">
+                  <label for="exampleInputPassword1">Saldo</label>
+                  <input type="password" className="form-control" onChange={this.logChange} value={this.state.saldo} placeholder="Saldo" />
+                </div>
+                <button type="submit" className="btn btn-primary">Submit</button>
+                </div>
+                {/* <Modal
+                  isOpen={this.state.modalIsOpen}
+                  onRequestClose={this.closeModal}
+                  contentLabel="Modal Tested" >
+                    <Validation.components.Form onSubmit={this.handleEdit} method="POST">
+                      <label>Name</label>
+                      <Validation.components.Input onChange={this.logChange} className="form-control" value={this.state.name} placeholder='John' name='name' validations={['required']}/>
+                        <label>Email</label>
+                        <Validation.components.Input onChange={this.logChange} className="form-control" value={this.state.email} placeholder='email@email.com' name='email' validations={['required', 'email']}/>
+                        <div className="submit-section">
+                          <Validation.components.Button className="btn btn-uth-submit">Submit</Validation.components.Button>
+                        </div>
+                    </Validation.components.Form>
+                </Modal> */}
                 </tbody>
               </table>
             </div>
