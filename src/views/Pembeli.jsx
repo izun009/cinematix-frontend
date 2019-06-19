@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Modal from 'react-modal';
-import Validation from 'react-validation';
 
 export class Pembeli extends Component {
 
@@ -16,18 +14,20 @@ export class Pembeli extends Component {
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.logChange = this.logChange.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeSaldo = this.onChangeSaldo.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   openModal(pembeli){
-    alert('Test');
+    // alert('Test');
     this.setState({
       modalIsOpen : true,
       email : pembeli.email,
       password : pembeli.password,
       saldo : pembeli.saldo,
-      id : pembeli.id_pembeli
+      id_pembeli : pembeli.id_pembeli
     });
   }
 
@@ -37,48 +37,47 @@ export class Pembeli extends Component {
     });
   }
 
-  logChange(e){
+  onChangeEmail(e){
     this.setState({
-      [e.target.name]: e.target.value
+      email : e.target.value
     });
   }
 
-  handleEdit(evt){
-    evt.preventDefault();
-    var data = {
+  onChangePassword(e){
+    this.setState({
+      password : e.target.value
+    });
+  }
+
+  onChangeSaldo(e){
+    this.setState({
+      saldo : e.target.value
+    });
+  }
+
+  
+  onSubmit(e){
+    e.preventDefault();
+    const obj = {
       email : this.state.email,
       password : this.state.password,
       saldo : this.state.saldo,
       id_pembeli : this.state.id_pembeli
     }
-
-    fetch('http://localhost:4000/api/v1/pembeli', {
-      method : 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/pembeli/edit', {
+      method : 'POST',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(obj)
     }).then((res) => {
-      if(res.status >= 400){
-        throw new Error("Bad Response From Server");
-      }
+      console.log(res.obj);
       return res.json();
-    }).then((data) => {
-      console.log(data);
-      if(data == "Success"){
-        this.setState({
-          msg: "User has been edited"
-        });
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
+    }).catch((err) => console.log(err));
   }
-
 
   componentDidMount(){
     let self = this;
-    fetch('http://localhost:4000/api/v1/pembeli', {
+    fetch('http://localhost:5000/api/v1/pembeli', {
       method : 'GET'
     }).then((res) => {
       if(res.status >= 400){
@@ -173,7 +172,6 @@ export class Pembeli extends Component {
                     </a>
                   </div>
                 </li>
-                
               </ul>
             </div>
           </div>
@@ -255,7 +253,7 @@ export class Pembeli extends Component {
                 <tbody>
                   {/* <!-- Pembeli --> */}
                 {this.state.users.map(pembeli =>
-                  <tr>
+                  <tr key={pembeli.id_pembeli}>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
@@ -285,13 +283,41 @@ export class Pembeli extends Component {
                       </div>
                     </td>
                     <td>
-                      <a onClick={() => this.openModal(pembeli)} className="btn btn-sm btn-primary">Ubah</a>
+                      <button onClick={() => this.openModal(pembeli)} data-toggle="modal"
+                      data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
                       <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
                     </td>
                   </tr>
                 )}
 
-                <div className="modal" action="POST" isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} onSubmit={this.handleEdit}>
+<div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
+  <div className="modal-dialog" role="document">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Tabel Pembeli</h5>
+        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <form onSubmit={this.onSubmit} method='POST'>
+      <div className="modal-body">
+        <label style={{color:"black"}}>Email address</label>
+        <input type="email" className="form-control" onChange={this.onChangeEmail} value={this.state.email} placeholder="email"/>
+        <label style={{color:"black"}}>Password</label>
+        <input type="password" className="form-control" onChange={this.onChangePassword} value={this.state.password} placeholder="password"/>
+        <label style={{color:"black"}}>Saldo</label>
+        <input type="saldo" className="form-control" onChange={this.onChangeSaldo} value={this.state.saldo} placeholder="saldo"/>
+      </div>
+      <div className="modal-footer">
+        <button type="submit" className="btn btn-primary">Save</button>
+        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+                {/* <div id="myModal" className="modal fade" method="POST" isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} onSubmit={this.handleEdit}>
                 <div className="form-group">
                   <label for="exampleInputEmail1">Email address</label>
                   <input type="email" className="form-control" onChange={this.logChange} value={this.state.email} aria-describedby="emailHelp" placeholder="Enter email" />
@@ -306,7 +332,8 @@ export class Pembeli extends Component {
                   <input type="password" className="form-control" onChange={this.logChange} value={this.state.saldo} placeholder="Saldo" />
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
-                </div>
+                </div> */}
+
                 {/* <Modal
                   isOpen={this.state.modalIsOpen}
                   onRequestClose={this.closeModal}
