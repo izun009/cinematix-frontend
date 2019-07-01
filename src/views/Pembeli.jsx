@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 
 export class Pembeli extends Component {
 
@@ -14,10 +15,12 @@ export class Pembeli extends Component {
     }
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.onChangeId = this.onChangeId.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeSaldo = this.onChangeSaldo.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   openModal(pembeli){
@@ -31,7 +34,7 @@ export class Pembeli extends Component {
     });
   }
 
-  closeModal(){
+  closeModal(pembeli){
     this.setState({
       modalIsOpen : false
     });
@@ -40,6 +43,12 @@ export class Pembeli extends Component {
   onChangeEmail(e){
     this.setState({
       email : e.target.value
+    });
+  }
+
+  onChangeId(e){
+    this.setState({
+      id_pembeli : e.target.value
     });
   }
 
@@ -55,6 +64,62 @@ export class Pembeli extends Component {
     });
   }
 
+  // handleSubmit(e){
+  //   e.preventDefault();
+  //       var obj = {
+  //           email: this.state.email,
+  //           password:this.state.password,
+  //           saldo : this.state.saldo
+  //       }
+  //       console.log(obj)
+  //       fetch("http://localhost:5000/api/v1/pembeli/add", {
+  //           method: 'POST',
+  //           headers: {'Content-Type': 'application/json'},
+  //           body: JSON.stringify(obj)
+  //       }).then(function(response) {
+  //           if (response.status >= 400) {
+  //             throw new Error("Bad response from server");
+  //           }
+  //           return response.json();
+  //       }).then(function(obj) {
+  //           console.log(obj)    
+  //           if(obj == "success"){
+  //              this.setState({msg: "Thanks for registering"});  
+  //           }
+  //       }).catch(function(err) {
+  //           console.log(err)
+  //       });
+  //     }
+
+  
+  onDelete(pembeli){
+    const obj = {
+        id_pembeli: pembeli.id_pembeli
+        // email : pembeli.email,
+        // password : pembeli.password,
+        // saldo : pembeli.saldo
+    }
+    console.log(obj);
+
+    fetch('http://localhost:5000/api/v1/pembeli/del', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(obj)
+    }).then(function(response) {
+      if (response.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      // return response.json();
+    }).then(function(obj) {
+      if(obj === "success"){
+         this.setState({msg: "User has been deleted."});  
+         console.log(obj);
+      }
+      // window.location = window.location;
+    }).catch(function(err) {
+      console.log(err)
+  });
+  }
   
   onSubmit(e){
     e.preventDefault();
@@ -71,7 +136,7 @@ export class Pembeli extends Component {
       body : JSON.stringify(obj)
     }).then((res) => {
       console.log(res.obj);
-      return res.json();
+      window.location = window.location;
     }).catch((err) => console.log(err));
   }
 
@@ -81,7 +146,7 @@ export class Pembeli extends Component {
       method : 'GET'
     }).then((res) => {
       if(res.status >= 400){
-        throw new Error("Bad Response From Server");
+        throw new Error("Bad Response");
       }
       return res.json();
     }).then((data) => {
@@ -124,7 +189,7 @@ export class Pembeli extends Component {
               <ul className="navbar-nav">
                 <li className="nav-item">
                   <a className="nav-link" href="/">
-                    <i className="ni ni-tv-2 text-primary"></i> Dashboard
+                    <i className="ni ni-tv-2 text-primary"></i>Dashboard
                   </a>
                 </li>
                 <li className="nav-item">
@@ -233,12 +298,11 @@ export class Pembeli extends Component {
 
               <div className="card-header bg-transparent border-0">
                 <div className="row align-items-center">
-                  <div className="col">
-                    <h3 className="text-white mb-0">Tabel Pembeli</h3>
-                  </div>
-                </div>      
+                    <div className="col">
+                      <h3 className="text-white mb-0">Tabel Pembeli</h3>              
+                    </div>
+                </div>   
               </div>
-              
             <div className="table-responsive">
               <table className="table align-items-center table-dark table-flush">
                 <thead className="thead-dark">
@@ -253,11 +317,11 @@ export class Pembeli extends Component {
                 <tbody>
                   {/* <!-- Pembeli --> */}
                 {this.state.users.map(pembeli =>
-                  <tr key={pembeli.id_pembeli}>
+                  <tr key={Pembeli.id_pembeli}>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">{pembeli.id_pembeli}</span>
+                          <span name="id_pembeli" className="mb-0 text-sm">{pembeli.id_pembeli}</span>
                         </div>
                       </div>
                     </td>
@@ -278,76 +342,45 @@ export class Pembeli extends Component {
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">{pembeli.saldo}</span>
+                          <span className="mb-0 text-sm">Rp. {pembeli.saldo}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <button onClick={() => this.openModal(pembeli)} data-toggle="modal"
                       data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                      <button onClick={() => this.onDelete(pembeli)} className="btn btn-sm btn-primary">Hapus</button>
                     </td>
                   </tr>
                 )}
 
-<div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
-  <div className="modal-dialog" role="document">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title">Tabel Pembeli</h5>
-        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      <form onSubmit={this.onSubmit} method='POST'>
-      <div className="modal-body">
-        <label style={{color:"black"}}>Email address</label>
-        <input type="email" className="form-control" onChange={this.onChangeEmail} value={this.state.email} placeholder="email"/>
-        <label style={{color:"black"}}>Password</label>
-        <input type="password" className="form-control" onChange={this.onChangePassword} value={this.state.password} placeholder="password"/>
-        <label style={{color:"black"}}>Saldo</label>
-        <input type="saldo" className="form-control" onChange={this.onChangeSaldo} value={this.state.saldo} placeholder="saldo"/>
-      </div>
-      <div className="modal-footer">
-        <button type="submit" className="btn btn-primary">Save</button>
-        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-                {/* <div id="myModal" className="modal fade" method="POST" isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} onSubmit={this.handleEdit}>
-                <div className="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" className="form-control" onChange={this.logChange} value={this.state.email} aria-describedby="emailHelp" placeholder="Enter email" />
-                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                </div>
-                <div className="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" className="form-control" onChange={this.logChange} value={this.state.password} placeholder="Password" />
-                </div>
-                <div className="form-group">
-                  <label for="exampleInputPassword1">Saldo</label>
-                  <input type="password" className="form-control" onChange={this.logChange} value={this.state.saldo} placeholder="Saldo" />
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-                </div> */}
-
-                {/* <Modal
-                  isOpen={this.state.modalIsOpen}
-                  onRequestClose={this.closeModal}
-                  contentLabel="Modal Tested" >
-                    <Validation.components.Form onSubmit={this.handleEdit} method="POST">
-                      <label>Name</label>
-                      <Validation.components.Input onChange={this.logChange} className="form-control" value={this.state.name} placeholder='John' name='name' validations={['required']}/>
-                        <label>Email</label>
-                        <Validation.components.Input onChange={this.logChange} className="form-control" value={this.state.email} placeholder='email@email.com' name='email' validations={['required', 'email']}/>
-                        <div className="submit-section">
-                          <Validation.components.Button className="btn btn-uth-submit">Submit</Validation.components.Button>
+                  <div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} 
+                       onRequestClose={this.closeModal}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Tabel Pembeli</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                         </div>
-                    </Validation.components.Form>
-                </Modal> */}
+                        <form onSubmit={this.onSubmit} method='POST'>
+                        <div className="modal-body">
+                          <label style={{color:"black"}}>Email address</label>
+                          <input type="email" className="form-control" onChange={this.onChangeEmail} value={this.state.email} placeholder="email"/>
+                          <label style={{color:"black"}}>Password</label>
+                          <input type="password" className="form-control" onChange={this.onChangePassword} value={this.state.password} placeholder="password"/>
+                          <label style={{color:"black"}}>Saldo</label>
+                          <input type="saldo" className="form-control" onChange={this.onChangeSaldo} value={this.state.saldo} placeholder="saldo"/>
+                        </div>
+                        <div className="modal-footer">
+                          <button type="submit" className="btn btn-primary">Save</button>
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
                 </tbody>
               </table>
             </div>
