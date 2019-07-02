@@ -1,6 +1,105 @@
 import React, { Component } from 'react'
 
 export class Kursi extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+     chair : [],
+     modalIsOpen : false,
+     id_kursi : 0,
+     no_kursi : ''
+    }
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    // this.onChangeId = this.onChangeId.bind(this);
+    this.onChangeNo = this.onChangeNo.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+  }
+
+  openModal(kursi){
+    // alert('Test');
+    this.setState({
+      modalIsOpen : true,
+      id_kursi : kursi.id_kursi,
+      no_kursi : kursi.no_kursi
+    });
+  }
+
+  closeModal(kursi){
+    this.setState({
+      modalIsOpen : false
+    });
+  }
+
+  onChangeNo(e){
+    this.setState({
+      no_kursi : e.target.value
+    });
+  }
+
+  onDelete(kursi){
+    const obj = {
+       id_kursi : kursi.id_kursi
+    }
+    console.log(obj);
+
+    fetch('http://localhost:5000/api/v1/kursi', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(obj)
+    }).then((res) => {
+      if (res.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      // return response.json();
+    }).then((obj) => {
+      if(obj === "success"){
+         this.setState({msg: "User has been deleted."});  
+      }
+      window.location = window.location;
+    }).catch(function(err) {
+      console.log(err)
+  });
+  }
+  
+  onSubmit(e){
+    e.preventDefault();
+    const obj = {
+      id_kursi : this.state.id_kursi,
+      no_kursi : this.state.no_kursi
+    }
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/kursi', {
+      method : 'PUT',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(obj)
+    }).then(res => {
+      if(res.status < 400){
+        console.log("Success");
+      }
+      window.location = window.location;
+    }).catch((err) => console.log(err));
+  }
+
+  componentDidMount(){
+    let self = this;
+    fetch('http://localhost:5000/api/v1/kursi', {
+      method : 'GET'
+    }).then((res) => {
+      if(res.status >= 400){
+        throw new Error("Bad Response");
+      }
+      return res.json();
+    }).then((data) => {
+      self.setState({chair: data});
+    }).catch(err => {
+      console.log('This is Error Code ', err);
+    })
+  }
+
+
   render() {
     return (
         <div>
@@ -53,8 +152,8 @@ export class Kursi extends Component {
                     <a href="/film" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Film</span>
                     </a>
-                    <a href="/kategori" className="list-group-item list-group-item-action">
-                        <span className="menu-collapsed">Kategori</span>
+                    <a href="/kursi" className="list-group-item list-group-item-action">
+                        <span className="menu-collapsed">kursi</span>
                     </a>
                     <a href="/tiket" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Tiket</span>
@@ -159,126 +258,56 @@ export class Kursi extends Component {
                 </thead>
                 <tbody>
                   {/* <!-- Kursi --> */}
+                  {this.state.chair.map(kursi =>
                   <tr>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">99991</span>
+                          <span className="mb-0 text-sm">{kursi.id_kursi}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">A001</span>
+                          <span className="mb-0 text-sm">{kursi.no_kursi}</span>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                      <button onClick={() => this.openModal(kursi)} data-toggle="modal"
+                        data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
+                      <button onClick={() => this.onDelete(kursi)} className="btn btn-sm btn-primary">Hapus</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99992</span>
+                  )}
+                  
+                  <div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} 
+                       onRequestClose={this.closeModal}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Tabel Kursi</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">A002</span>
+                        <form onSubmit={this.onSubmit} method='POST'>
+                        <div className="modal-body">
+                          <label style={{color:"black"}}>Chair Number</label>
+                          <input type="kursi" className="form-control" onChange={this.onChangeNo} 
+                            value={this.state.no_kursi} placeholder="Chair Number"/>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99993</span>
+                        <div className="modal-footer">
+                          <button type="submit" className="btn btn-primary">Save</button>
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
+                        </form>
                       </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">A003</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99994</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">A004</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99995</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">B005</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99996</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">B006</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
+
+
                 </tbody>
               </table>
             </div>

@@ -1,6 +1,105 @@
 import React, { Component } from 'react'
 
-export class Studio extends Component {
+export class Studio extends Component {constructor(props){
+  super(props)
+  this.state = {
+   studios : [],
+   modalIsOpen : false,
+   id_studio : 0,
+   no_studio : ''
+  }
+  this.openModal = this.openModal.bind(this);
+  this.closeModal = this.closeModal.bind(this);
+  // this.onChangeId = this.onChangeId.bind(this);
+  this.onChangeNo = this.onChangeNo.bind(this);
+  this.onSubmit = this.onSubmit.bind(this);
+  this.onDelete = this.onDelete.bind(this);
+}
+
+openModal(studio){
+  // alert('Test');
+  this.setState({
+    modalIsOpen : true,
+    id_studio : studio.id_studio,
+    no_studio : studio.no_studio
+  });
+}
+
+closeModal(studio){
+  this.setState({
+    modalIsOpen : false
+  });
+}
+
+onChangeNo(e){
+  this.setState({
+    no_studio : e.target.value
+  });
+}
+
+onDelete(studio){
+  const obj = {
+     id_studio : studio.id_studio
+  }
+  console.log(obj);
+
+  fetch('http://localhost:5000/api/v1/studio', {
+      method: 'DELETE',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(obj)
+  }).then((res) => {
+    if (res.status >= 400) {
+      throw new Error("Bad response from server");
+    }
+    // return response.json();
+  }).then((obj) => {
+    if(obj === "success"){
+       this.setState({msg: "User has been deleted."});  
+    }
+    window.location = window.location;
+  }).catch(function(err) {
+    console.log(err)
+});
+}
+
+onSubmit(e){
+  e.preventDefault();
+  const obj = {
+    id_studio : this.state.id_studio,
+    no_studio : this.state.no_studio
+  }
+  console.log(obj);
+  fetch('http://localhost:5000/api/v1/studio', {
+    method : 'PUT',
+    headers : {'Content-Type': 'application/json'},
+    body : JSON.stringify(obj)
+  }).then(res => {
+    if(res.status < 400){
+      console.log("Success");
+    }
+    window.location = window.location;
+  }).catch((err) => console.log(err));
+}
+
+componentDidMount(){
+  let self = this;
+  fetch('http://localhost:5000/api/v1/studio', {
+    method : 'GET'
+  }).then((res) => {
+    if(res.status >= 400){
+      throw new Error("Bad Response");
+    }
+    return res.json();
+  }).then((data) => {
+    self.setState({studios: data});
+  }).catch(err => {
+    console.log('This is Error Code ', err);
+  })
+}
+
+
+
+
   render() {
     return (
         <div>
@@ -71,11 +170,11 @@ export class Studio extends Component {
                     <a href="/studio" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Studio</span>
                     </a>
-                    <a href="/kursi" className="list-group-item list-group-item-action">
-                        <span className="menu-collapsed">Kursi</span>
+                    <a href="/studio" className="list-group-item list-group-item-action">
+                        <span className="menu-collapsed">studio</span>
                     </a>
-                    <a href="/studio-kursi" className="list-group-item list-group-item-action">
-                        <span className="menu-collapsed">Studio Kursi</span>
+                    <a href="/studio-studio" className="list-group-item list-group-item-action">
+                        <span className="menu-collapsed">Studio studio</span>
                     </a>
                     <a href="/pemesanan" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Pemesanan</span>
@@ -159,126 +258,55 @@ export class Studio extends Component {
                 </thead>
                 <tbody>
                   {/* <!-- Studio --> */}
+                  {this.state.studios.map(studio =>
                   <tr>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">99991</span>
+                          <span className="mb-0 text-sm">{studio.id_studio}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">AA001</span>
+                          <span className="mb-0 text-sm">{studio.no_studio}</span>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                    <button onClick={() => this.openModal(studio)} data-toggle="modal"
+                        data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
+                      <button onClick={() => this.onDelete(studio)} className="btn btn-sm btn-primary">Hapus</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99992</span>
+                  )}
+
+                    <div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} 
+                       onRequestClose={this.closeModal}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Tabel studio</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">AA002</span>
+                        <form onSubmit={this.onSubmit} method='POST'>
+                        <div className="modal-body">
+                          <label style={{color:"black"}}>studios Number</label>
+                          <input type="studio" className="form-control" onChange={this.onChangeNo} 
+                            value={this.state.no_studio} placeholder="studios Number"/>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99993</span>
+                        <div className="modal-footer">
+                          <button type="submit" className="btn btn-primary">Save</button>
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
+                        </form>
                       </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">AA003</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99994</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">CC004</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99995</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">BB005</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">99996</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">BB006</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
+
                 </tbody>
               </table>
             </div>

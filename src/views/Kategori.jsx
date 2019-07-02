@@ -58,7 +58,7 @@ export class Kategori extends Component {
       if(obj === "success"){
          this.setState({msg: "User has been deleted."});  
       }
-      // window.location = window.location;
+      window.location = window.location;
     }).catch(function(err) {
       console.log(err)
   });
@@ -294,7 +294,7 @@ export class Kategori extends Component {
                         <form onSubmit={this.onSubmit} method='POST'>
                         <div className="modal-body">
                           <label style={{color:"black"}}>Category Name</label>
-                          <input type="email" className="form-control" onChange={this.onChangeNama} 
+                          <input type="kategori" className="form-control" onChange={this.onChangeNama} 
                             value={this.state.nama_kategori} placeholder="Category Name"/>
                         </div>
                         <div className="modal-footer">
