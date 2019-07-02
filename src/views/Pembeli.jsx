@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios';
 
 export class Pembeli extends Component {
 
@@ -102,7 +101,7 @@ export class Pembeli extends Component {
     console.log(obj);
 
     fetch('http://localhost:5000/api/v1/pembeli/del', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(obj)
     }).then(function(response) {
@@ -113,7 +112,6 @@ export class Pembeli extends Component {
     }).then(function(obj) {
       if(obj === "success"){
          this.setState({msg: "User has been deleted."});  
-         console.log(obj);
       }
       // window.location = window.location;
     }).catch(function(err) {
@@ -131,14 +129,17 @@ export class Pembeli extends Component {
     }
     console.log(obj);
     fetch('http://localhost:5000/api/v1/pembeli/edit', {
-      method : 'POST',
+      method : 'PUT',
       headers : {'Content-Type': 'application/json'},
       body : JSON.stringify(obj)
-    }).then((res) => {
-      console.log(res.obj);
+    }).then(res => {
+      if(res.status < 400){
+        console.log("Success");
+      }
       window.location = window.location;
     }).catch((err) => console.log(err));
   }
+  
 
   componentDidMount(){
     let self = this;
@@ -381,6 +382,7 @@ export class Pembeli extends Component {
                       </div>
                     </div>
                   </div>
+
                 </tbody>
               </table>
             </div>
