@@ -152,8 +152,8 @@ export class Kursi extends Component {
                     <a href="/film" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Film</span>
                     </a>
-                    <a href="/kursi" className="list-group-item list-group-item-action">
-                        <span className="menu-collapsed">kursi</span>
+                    <a href="/kategori" className="list-group-item list-group-item-action">
+                        <span className="menu-collapsed">Kategori</span>
                     </a>
                     <a href="/tiket" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Tiket</span>

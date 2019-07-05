@@ -1,6 +1,143 @@
 import React, { Component } from 'react'
 
 export class Film extends Component {
+
+
+  constructor(props){
+    super(props)
+    this.state = {
+      movie : [],
+      modalIsOpen : false,
+      judul : '',
+      sinopsis : '',
+      jam_mulai : '',
+      durasi : '',
+      id_film : 0
+    }
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.onChangeId = this.onChangeId.bind(this);
+    this.onChangeDurasi = this.onChangeDurasi.bind(this);
+    this.onChangejudul = this.onChangejudul.bind(this);
+    this.onChangesinopsis = this.onChangesinopsis.bind(this);
+    this.onChangejam_mulai = this.onChangejam_mulai.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+  }
+
+  openModal(film){
+    // alert('Test');
+    this.setState({
+      modalIsOpen : true,
+      judul : film.judul,
+      sinopsis : film.sinopsis,
+      jam_mulai : film.jam_mulai,
+      id_film : film.id_film
+    });
+  }
+
+  closeModal(film){
+    this.setState({
+      modalIsOpen : false
+    });
+  }
+
+  onChangejudul(e){
+    this.setState({
+      judul : e.target.value
+    });
+  }
+
+  onChangeId(e){
+    this.setState({
+      id_film : e.target.value
+    });
+  }
+
+  onChangeDurasi(e){
+    this.setState({
+      durasi : e.target.value
+    });
+  }
+
+  onChangesinopsis(e){
+    this.setState({
+      sinopsis : e.target.value
+    });
+  }
+
+  onChangejam_mulai(e){
+    this.setState({
+      jam_mulai : e.target.value
+    });
+  }
+
+  
+  onDelete(film){
+    const obj = {
+        id_film: film.id_film
+    }
+    console.log(obj);
+
+    fetch('http://localhost:5000/api/v1/film', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(obj)
+    }).then(function(response) {
+      if (response.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      // return response.json();
+    }).then(function(obj) {
+      if(obj === "success"){
+         this.setState({msg: "User has been deleted."});  
+      }
+      window.location = window.location;
+    }).catch(function(err) {
+      console.log(err)
+  });
+  }
+  
+  onSubmit(e){
+    e.preventDefault();
+    const obj = {
+      durasi : this.state.durasi,
+      judul : this.state.judul,
+      sinopsis : this.state.sinopsis,
+      jam_mulai : this.state.jam_mulai,
+      id_film : this.state.id_film
+    }
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/film', {
+      method : 'PUT',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(obj)
+    }).then(res => {
+      if(res.status < 400){
+        console.log("Success");
+      }
+      window.location = window.location;
+    }).catch((err) => console.log(err));
+  }
+  
+
+  componentDidMount(){
+    let self = this;
+    fetch('http://localhost:5000/api/v1/film', {
+      method : 'GET'
+    }).then((res) => {
+      if(res.status >= 400){
+        throw new Error("Bad Response");
+      }
+      return res.json();
+    }).then((data) => {
+      self.setState({movie: data});
+    }).catch(err => {
+      console.log('This is Error Code ', err);
+    })
+  }
+
+
   render() {
     return (
       <div>
@@ -162,236 +299,81 @@ export class Film extends Component {
                 </thead>
                 <tbody>
                   {/* <!-- Film --> */}
+                  {this.state.movie.map(film =>
                   <tr>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">0000001</span>
+                          <span class="mb-0 text-sm">{film.id_film}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">Sherlock Holmes</span>
+                          <span class="mb-0 text-sm">{film.judul}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            Lorem ipsum dolor sit amet, consectetur <br/>
-                            adipiscing elit,sed do eiusmod tempor <br/>
-                            incididunt ut labore et dolore magna aliqua.<br/>
-                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                          </span>
+                          <span class="mb-0 text-sm">{film.sinopsis}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">11.30</span>
+                          <span class="mb-0 text-sm">{film.jam_mulai}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">125</span>
+                          <span class="mb-0 text-sm">{film.durasi}</span>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                      <button onClick={() => this.openModal(film)} data-toggle="modal"
+                      data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
+                      <button onClick={() => this.onDelete(film)} className="btn btn-sm btn-primary">Hapus</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">0000002</span>
+                  )}
+
+                  <div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} 
+                       onRequestClose={this.closeModal}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Tabel film</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">Assasin Creed</span>
+                        <form onSubmit={this.onSubmit} method='POST'>
+                        <div className="modal-body">
+                          <label style={{color:"black"}}>Judul Film</label>
+                          <input type="judul" className="form-control" onChange={this.onChangejudul} value={this.state.judul} placeholder="judul"/>
+                          <label style={{color:"black"}}>Sinopsis</label>
+                          <input type="sinopsis" className="form-control" onChange={this.onChangesinopsis} value={this.state.sinopsis} placeholder="sinopsis"/>
+                          <label style={{color:"black"}}>Jam Mulai</label>
+                          <input type="jam_mulai" className="form-control" onChange={this.onChangejam_mulai} value={this.state.jam_mulai} placeholder="jam_mulai"/>
+                          <label style={{color:"black"}}>Durasi</label>
+                          <input type="durasi" className="form-control" onChange={this.onChangeDurasi} value={this.state.durasi} placeholder="Durasi"/>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            Lorem ipsum dolor sit amet, consectetur <br/>
-                            adipiscing elit,sed do eiusmod tempor <br/>
-                            incididunt ut labore et dolore magna aliqua.<br/>
-                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                          </span>
+                        <div className="modal-footer">
+                          <button type="submit" className="btn btn-primary">Save</button>
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
+                        </form>
                       </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">09.30</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">130</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">0000003</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">Fallout</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            Lorem ipsum dolor sit amet, consectetur <br/>
-                            adipiscing elit,sed do eiusmod tempor <br/>
-                            incididunt ut labore et dolore magna aliqua.<br/>
-                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">13.45</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">120</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">0000004</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">The Jokerman</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            Lorem ipsum dolor sit amet, consectetur <br/>
-                            adipiscing elit,sed do eiusmod tempor <br/>
-                            incididunt ut labore et dolore magna aliqua.<br/>
-                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">14.15</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">121</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">0000005</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">The Rise of Bones</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            Lorem ipsum dolor sit amet, consectetur <br/>
-                            adipiscing elit,sed do eiusmod tempor <br/>
-                            incididunt ut labore et dolore magna aliqua.<br/>
-                            Ut enim ad minim veniam, quis nostrud exercitation. <br/>
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">16.25</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">125</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
+
                 </tbody>
               </table>
             </div>

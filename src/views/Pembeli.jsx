@@ -104,17 +104,17 @@ export class Pembeli extends Component {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(obj)
-    }).then(function(response) {
-      if (response.status >= 400) {
+    }).then((res) => {
+      if (res.status >= 400) {
         throw new Error("Bad response from server");
       }
       // return response.json();
-    }).then(function(obj) {
+    }).then((obj) => {
       if(obj === "success"){
          this.setState({msg: "User has been deleted."});  
       }
-      // window.location = window.location;
-    }).catch(function(err) {
+      window.location = window.location;
+    }).catch((err) => {
       console.log(err)
   });
   }

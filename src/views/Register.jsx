@@ -2,37 +2,44 @@ import React, { Component } from 'react'
 import axios from 'axios';
 
 export class Register extends Component {
+  
   constructor(props){
-    super(props);
-
+    super(props)
     this.state = {
-      username: '',
-      email: '',
-      password: ''
+      username : '',
+      password : '',
+      email : ''
     };
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
 
-  handleSubmit = event => {
-    event.preventDefault();
-    const apiku = 'http://localhost:4000/api/v1/register';
-    const self = this;
-    const payload = {
-      'username' : this.state.username,
-      'email' : this.state.email,
-      'password' : this.state.password
+  onSubmit(e){
+    e.preventDefault();
+    var mail = document.getElementById('email').value;
+    var user = document.getElementById('username').value;
+    var pass = document.getElementById('password').value;
+    const obj = {
+      email : mail,
+      username: user,
+      password : pass
     }
-    axios.post(apiku, payload)
-    .then((res) => {
-      console.log(res);
-      if(res.data.code == 200){
-        console.log('Success Registration');
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/register', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(obj)
+    }).then(res => {
+      if(res.status <= 400){
+        console.log('Success');
+        alert('Berhasil Mendaftar');
       }
-      alert('Success');
-      window.location.href = 'localhost:3000';
-    }).catch((err) => {
-      console.log(err);
+
+      window.location.href = 'http://localhost:3000/login'
+    }).catch(err => {
+      console.log('Error Message : ',err);
     });
+
   }
  
 
@@ -81,31 +88,24 @@ export class Register extends Component {
               </div>
             </div>
             <div className="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form role="form" onSubmit={this.onSubmit}>
                 <div className="form-group mb-3">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" name="username"
-                    onChange={(event,newValue)=> this.setState({username:newValue})} 
-                    placeholder="Username" type="text"/>
+                    <input className="form-control" id="username" placeholder="Username" type="text"/>
                   </div>
                 </div>
                 <div className="form-group mb-3">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" name="email"
-                    onChange={(event,newValue)=> this.setState({email:newValue})} 
-                    placeholder="Email" type="email"/>
+                    <input className="form-control" id="email" placeholder="Email" type="email"/>
                   </div>
                 </div>
                 <div className="form-group">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" name="password"
-                    onChange={(event,newValue)=> this.setState({password:newValue})} 
-                    placeholder="Password" type="password"/>
+                    <input className="form-control" id="password" placeholder="Password" type="password"/>
                   </div>
                 </div>
                 <div className="text-center">
-                  <button type="submit" className="btn btn-primary my-4" 
-                  onClick={(event)=>this.handleSubmit(event)}>Sign Up</button>
+                  <button type="submit" className="btn btn-primary my-4">Sign Up</button>
                 </div>
               </form>
             </div>

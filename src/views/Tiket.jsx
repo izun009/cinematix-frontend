@@ -1,6 +1,134 @@
 import React, { Component } from 'react'
 
 export class Tiket extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      users : [],
+      modalIsOpen : false,
+      id_tiket : 0,
+      no_tiket : '',
+      harga : 0,
+      id_pemesanan_jadwal_film : 0,
+      id_pembeli : 0
+    }
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.onChangeNo = this.onChangeNo.bind(this);
+    this.onChangeHrg = this.onChangeHrg.bind(this);
+    this.onChangePemesanan = this.onChangePemesanan.bind(this);
+    this.onChangePembeli = this.onChangePembeli.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+  }
+
+  openModal(tiket){
+    // alert('Test');
+    this.setState({
+      modalIsOpen : true,
+      id_tiket : tiket.id_tiket,
+      no_tiket : tiket.no_tiket,
+      harga : tiket.harga,
+      id_pemesanan_jadwal_film : tiket.id_pemesanan_jadwal_film,
+      id_pembeli : tiket.id_pembeli
+    });
+  }
+
+  closeModal(tiket){
+    this.setState({
+      modalIsOpen : false
+    });
+  }
+
+  onChangeHrg(e){
+    this.setState({
+      harga : e.target.value
+    });
+  }
+
+  onChangeNo(e){
+    this.setState({
+      no_tiket : e.target.value
+    });
+  }
+
+  onChangePembeli(e){
+    this.setState({
+      id_pembeli : e.target.value
+    });
+  }
+
+  onChangePemesanan(e){
+    this.setState({
+      id_pemesanan_jadwal_film : e.target.value
+    });
+  }
+  
+  onDelete(tiket){
+    const obj = {
+        id_tiket: tiket.id_tiket
+    }
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/tiket', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(obj)
+    }).then((res) => {
+      if (res.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      // return response.json();
+    }).then((obj) => {
+      if(obj === "success"){
+         this.setState({msg: "User has been deleted."});  
+      }
+      window.location = window.location;
+    }).catch((err) => {
+      console.log(err)
+  });
+  }
+  
+  onSubmit(e){
+    e.preventDefault();
+    const obj = {
+      id_tiket : this.state.id_tiket,
+      no_tiket : this.state.no_tiket,
+      harga : this.state.harga,
+      id_pemesanan_jadwal_film : this.state.id_pemesanan_jadwal_film,
+      id_pembeli : this.state.id_pembeli
+    }
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/tiket', {
+      method : 'PUT',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(obj)
+    }).then(res => {
+      if(res.status < 400){
+        console.log("Success");
+      }
+      window.location = window.location;
+    }).catch((err) => console.log(err));
+  }
+  
+
+  componentDidMount(){
+    let self = this;
+    fetch('http://localhost:5000/api/v1/tiket', {
+      method : 'GET'
+    }).then((res) => {
+      if(res.status >= 400){
+        throw new Error("Bad Response");
+      }
+      return res.json();
+    }).then((data) => {
+      self.setState({users: data});
+    }).catch(err => {
+      console.log('This is Error Code ', err);
+    })
+  }
+
+
   render() {
     return (
         <div>
@@ -12,7 +140,7 @@ export class Tiket extends Component {
               <span className="navbar-toggler-icon"></span>
             </button>
             {/* <!-- Brand --> */}
-            <a className="navbar-brand pt-0" href="/">
+            <a className="navbar-brand pt-0" href="/">A1
               <h1>CINEMATIX</h1>
               <hr />
             </a>
@@ -47,7 +175,7 @@ export class Tiket extends Component {
                     <i className="ni ni-bullet-list-67 text-red"></i> Tables
                   </a>
                   <div id="submenu" className="collapse sidebar-submenu">
-                    <a href="/pembeli" className="list-group-item list-group-item-action">
+                    <a href="/tiket" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Pembeli</span>
                     </a>
                     <a href="/film" className="list-group-item list-group-item-action">
@@ -162,221 +290,81 @@ export class Tiket extends Component {
                 </thead>
                 <tbody>
                   {/* <!-- Tiket --> */}
+                  {this.state.users.map(tiket =>
                   <tr>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">0000001</span>
+                          <span class="mb-0 text-sm">{tiket.id_tiket}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">999</span>
+                          <span class="mb-0 text-sm">{tiket.no_tiket}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            50000
-                          </span>
+                          <span class="mb-0 text-sm">{tiket.harga}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">A111</span>
+                          <span class="mb-0 text-sm">{tiket.id_pemesanan_jadwal_film}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="mb-0 text-sm">1</span>
+                          <span class="mb-0 text-sm">{tiket.id_pembeli}</span>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                      <button onClick={() => this.openModal(tiket)} data-toggle="modal"
+                      data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
+                      <button onClick={() => this.onDelete(tiket)} className="btn btn-sm btn-primary">Hapus</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">0000002</span>
+                  )}
+
+                  <div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} 
+                       onRequestClose={this.closeModal}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Tabel Tiket</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">888</span>
+                        <form onSubmit={this.onSubmit} method='POST'>
+                        <div className="modal-body">
+                          <label style={{color:"black"}}>Nomer Tiket</label>
+                          <input type="nomer tiket" className="form-control" onChange={this.onChangeNo} value={this.state.no_tiket} placeholder="Nomer"/>
+                          <label style={{color:"black"}}>Harga</label>
+                          <input type="harga" className="form-control" onChange={this.onChangeHrg} value={this.state.harga} placeholder="Harga"/>
+                          <label style={{color:"black"}}>ID Pemesanan</label>
+                          <input type="id pemesanan" className="form-control" onChange={this.onChangePemesanan} value={this.state.id_pemesanan_jadwal_film} placeholder="Id Pemesanan"/>
+                          <label style={{color:"black"}}>ID Pembeli</label>
+                          <input type="id pembeli" className="form-control" onChange={this.onChangePembeli} value={this.state.id_pembeli} placeholder="Id Pembeli"/>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            36000
-                          </span>
+                        <div className="modal-footer">
+                          <button type="submit" className="btn btn-primary">Save</button>
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
+                        </form>
                       </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">B222</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">2</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">0000003</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">777</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            28900
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">C333</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">3</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">0000004</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">666</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            34000
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">D444</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">4</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">0000005</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">555</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">
-                            45000
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">E666</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="mb-0 text-sm">5</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
+
                 </tbody>
               </table>
             </div>

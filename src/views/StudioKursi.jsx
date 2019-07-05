@@ -1,6 +1,113 @@
 import React, { Component } from 'react'
 
 export class StudioKursi extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+     tmp : [],
+     modalIsOpen : false,
+     id_studio_kursi : 0,
+     id_kursi : 0,
+     id_studio : 0
+    }
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.onChangeIdStudio = this.onChangeIdStudio.bind(this);
+    this.onChangeIdKursi = this.onChangeIdKursi.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+  }
+
+  openModal(studio_kursi){
+    // alert('Test');
+    this.setState({
+      modalIsOpen : true,
+      id_studio_kursi : studio_kursi.id_studio_kursi,
+      id_kursi : studio_kursi.id_kursi,
+      id_studio : studio_kursi.id_studio
+    });
+  }
+
+  closeModal(studio_kursi){
+    this.setState({
+      modalIsOpen : false
+    });
+  }
+
+  onChangeIdKursi(e){
+    this.setState({
+      id_kursi : e.target.value
+    });
+  }
+  onChangeIdStudio(e){
+    this.setState({
+      id_studio : e.target.value
+    });
+  }
+
+  onDelete(studio_kursi){
+    const obj = {
+       id_studio_kursi : studio_kursi.id_studio_kursi
+    }
+    console.log(obj);
+
+    fetch('http://localhost:5000/api/v1/studio-kursi', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(obj)
+    }).then((res) => {
+      if (res.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      // return response.json();
+    }).then((obj) => {
+      if(obj === "success"){
+         this.setState({msg: "User has been deleted."});  
+      }
+      window.location = window.location;
+    }).catch(function(err) {
+      console.log(err)
+  });
+  }
+  
+  onSubmit(e){
+    e.preventDefault();
+    const obj = {
+      id_studio_kursi : this.state.id_studio_kursi,
+      id_kursi : this.state.id_kursi,
+      id_studio : this.state.id_studio
+    }
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/studio-kursi', {
+      method : 'PUT',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(obj)
+    }).then(res => {
+      if(res.status < 400){
+        console.log("Success");
+      }
+      window.location = window.location;
+    }).catch((err) => console.log(err));
+  }
+
+  componentDidMount(){
+    let self = this;
+    fetch('http://localhost:5000/api/v1/studio-kursi', {
+      method : 'GET'
+    }).then((res) => {
+      if(res.status >= 400){
+        throw new Error("Bad Response");
+      }
+      return res.json();
+    }).then((data) => {
+      self.setState({tmp: data});
+    }).catch(err => {
+      console.log('This is Error Code ', err);
+    })
+  }
+
+
   render() {
     return (
         <div>
@@ -160,141 +267,65 @@ export class StudioKursi extends Component {
                 </thead>
                 <tbody>
                   {/* <!-- Studio Kursi --> */}
+                  {this.state.tmp.map(studio_kursi =>
                   <tr>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">111</span>
+                          <span className="mb-0 text-sm">{studio_kursi.id_studio_kursi}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                     <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">111</span>
+                          <span className="mb-0 text-sm">{studio_kursi.id_studio}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                     <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">111</span>
+                          <span className="mb-0 text-sm">{studio_kursi.id_kursi}</span>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                      <button onClick={() => this.openModal(studio_kursi)} data-toggle="modal"
+                        data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
+                      <button onClick={() => this.onDelete(studio_kursi)} className="btn btn-sm btn-primary">Hapus</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">222</span>
+                  )}
+
+                  <div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} 
+                       onRequestClose={this.closeModal}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Tabel Studio Kursi</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">222</span>
+                        <form onSubmit={this.onSubmit} method='POST'>
+                        <div className="modal-body">
+                          <label style={{color:"black"}}>ID Studio</label>
+                          <input type="id studio" className="form-control" onChange={this.onChangeIdStudio} 
+                            value={this.state.id_studio} placeholder="id studio"/>
+                          <label style={{color:"black"}}>ID Kursi</label>
+                          <input type="id kursi" className="form-control" onChange={this.onChangeIdKursi} 
+                            value={this.state.id_kursi} placeholder="id kursi"/>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">222</span>
+                        <div className="modal-footer">
+                          <button type="submit" className="btn btn-primary">Save</button>
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
+                        </form>
                       </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">333</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">333</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">333</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">444</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">444</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">444</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">555</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">555</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">555</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
+
                 </tbody>
               </table>
             </div>

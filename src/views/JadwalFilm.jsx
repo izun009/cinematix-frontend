@@ -1,6 +1,111 @@
 import React, { Component } from 'react'
 
 export class JadwalFilm extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+     tmp : [],
+     modalIsOpen : false,
+     id_jadwal_film : 0,
+     id_jadwal : 0,
+     id_film : 0
+    }
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.onChangeIdJadwal = this.onChangeIdJadwal.bind(this);
+    this.onChangeIdFilm = this.onChangeIdFilm.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+  }
+
+  openModal(jadwal_film){
+    // alert('Test');
+    this.setState({
+      modalIsOpen : true,
+      id_jadwal_film : jadwal_film.id_jadwal_film,
+      id_jadwal : jadwal_film.id_jadwal,
+      id_film : jadwal_film.id_film
+    });
+  }
+
+  closeModal(jadwal_film){
+    this.setState({
+      modalIsOpen : false
+    });
+  }
+
+  onChangeIdFilm(e){
+    this.setState({
+      id_jadwal : e.target.value
+    });
+  }
+  onChangeIdJadwal(e){
+    this.setState({
+      id_film : e.target.value
+    });
+  }
+
+  onDelete(jadwal_film){
+    const obj = {
+       id_jadwal_film : jadwal_film.id_jadwal_film
+    }
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/jadwal-film', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(obj)
+    }).then((res) => {
+      if (res.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+    }).then((obj) => {
+      if(obj === "success"){
+         this.setState({msg: "User has been deleted."});  
+      }
+      window.location = window.location;
+    }).catch(function(err) {
+      console.log(err)
+  });
+  }
+  
+  onSubmit(e){
+    e.preventDefault();
+    const obj = {
+      id_jadwal_film : this.state.id_jadwal_film,
+      id_jadwal : this.state.id_jadwal,
+      id_film : this.state.id_film
+    }
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/jadwal-film', {
+      method : 'PUT',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(obj)
+    }).then(res => {
+      if(res.status < 400){
+        console.log("Success");
+      }
+      window.location = window.location;
+    }).catch((err) => console.log(err));
+  }
+
+  componentDidMount(){
+    let self = this;
+    fetch('http://localhost:5000/api/v1/jadwal-film', {
+      method : 'GET'
+    }).then((res) => {
+      if(res.status >= 400){
+        throw new Error("Bad Response");
+      }
+      return res.json();
+    }).then((data) => {
+      self.setState({tmp: data});
+    }).catch(err => {
+      console.log('This is Error Code ', err);
+    })
+  }
+
+
   render() {
     return (
         <div>
@@ -74,7 +179,7 @@ export class JadwalFilm extends Component {
                     <a href="/kursi" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Kursi</span>
                     </a>
-                    <a href="/studio-kursi" className="list-group-item list-group-item-action">
+                    <a href="/jadwal_film" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Studio Kursi</span>
                     </a>
                     <a href="/pemesanan" className="list-group-item list-group-item-action">
@@ -160,141 +265,65 @@ export class JadwalFilm extends Component {
                 </thead>
                 <tbody>
                   {/* <!-- Jadwal Film --> */}
+                  {this.state.tmp.map(jadwal_film =>
                   <tr>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">111</span>
+                          <span className="mb-0 text-sm">{jadwal_film.id_jadwal_film}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                     <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">1</span>
+                          <span className="mb-0 text-sm">{jadwal_film.id_jadwal}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                     <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">1</span>
+                          <span className="mb-0 text-sm">{jadwal_film.id_film}</span>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                     <button onClick={() => this.openModal(jadwal_film)} data-toggle="modal"
+                        data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
+                      <button onClick={() => this.onDelete(jadwal_film)} className="btn btn-sm btn-primary">Hapus</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">222</span>
+                  )}
+
+                  <div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} 
+                       onRequestClose={this.closeModal}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Tabel Studio Kursi</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">2</span>
+                        <form onSubmit={this.onSubmit} method='POST'>
+                        <div className="modal-body">
+                          <label style={{color:"black"}}>ID Film</label>
+                          <input type="id jadwal" className="form-control" onChange={this.onChangeIdJadwal} 
+                            value={this.state.id_film} placeholder="id studio"/>
+                          <label style={{color:"black"}}>ID Jadwal</label>
+                          <input type="id film" className="form-control" onChange={this.onChangeIdFilm} 
+                            value={this.state.id_jadwal} placeholder="id kursi"/>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">2</span>
+                        <div className="modal-footer">
+                          <button type="submit" className="btn btn-primary">Save</button>
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
+                        </form>
                       </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">333</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">3</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">3</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">444</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">4</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">4</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">555</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">5</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                    <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">5</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
+
                 </tbody>
               </table>
             </div>

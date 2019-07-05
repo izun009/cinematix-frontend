@@ -2,6 +2,44 @@ import React, { Component } from 'react'
 
 export class Login extends Component {
 
+  constructor(props){
+    super(props)
+    this.state = {
+      username : '',
+      password : ''
+    };
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+
+  onSubmit(e){
+    e.preventDefault();
+    var user = document.getElementById('username').value;
+    var pass = document.getElementById('password').value;
+    const obj = {
+      username: user,
+      password : pass
+    }
+    console.log(obj);
+
+    // validasi
+
+    fetch('http://localhost:5000/api/v1/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(obj)
+    }).then(res => {
+      if(res.status <= 400){
+        console.log('Success');
+      }
+      // window.location.href = 'http://localhost:3000/'
+    }).catch(err => {
+      console.log('Error Message : ',err);
+    });
+
+  }
+
+
   render() {
     return (
         <div className="bg-default">
@@ -47,19 +85,19 @@ export class Login extends Component {
               </div>
             </div>
             <div className="card-body px-lg-5 py-lg-5">
-              <form role="form">
+              <form role="form" onSubmit={this.onSubmit} method="POST">
                 <div className="form-group mb-3">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" placeholder="Email" type="email"/>
+                    <input className="form-control" id="username" placeholder="Username" type="username"/>
                   </div>
                 </div>
                 <div className="form-group">
                   <div className="input-group input-group-alternative">
-                    <input className="form-control" placeholder="Password" type="password"/>
+                    <input className="form-control" id="password" placeholder="Password" type="password"/>
                   </div>
                 </div>
                 <div className="text-center">
-                  <button type="button" className="btn btn-primary my-4">Login</button>
+                  <button type="submit" className="btn btn-primary my-4">Login</button>
                 </div>
               </form>
             </div>

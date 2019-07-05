@@ -1,6 +1,104 @@
 import React, { Component } from 'react'
 
 export class Jadwal extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+     schedule : [],
+     modalIsOpen : false,
+     id_jadwal : 0,
+     tanggal : ''
+    }
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    // this.onChangeId = this.onChangeId.bind(this);
+    this.onChangeTgl = this.onChangeTgl.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+  }
+
+  openModal(jadwal){
+    // alert('Test');
+    this.setState({
+      modalIsOpen : true,
+      id_jadwal : jadwal.id_jadwal,
+      tanggal : jadwal.tanggal
+    });
+  }
+
+  closeModal(jadwal){
+    this.setState({
+      modalIsOpen : false
+    });
+  }
+
+  onChangeTgl(e){
+    this.setState({
+      tanggal : e.target.value
+    });
+  }
+
+  onDelete(jadwal){
+    const obj = {
+       id_jadwal : jadwal.id_jadwal
+    }
+    console.log(obj);
+
+    fetch('http://localhost:5000/api/v1/jadwal', {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(obj)
+    }).then((res) => {
+      if (res.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      // return response.json();
+    }).then((obj) => {
+      if(obj === "success"){
+         this.setState({msg: "User has been deleted."});  
+      }
+      window.location = window.location;
+    }).catch(function(err) {
+      console.log(err)
+  });
+  }
+  
+  onSubmit(e){
+    e.preventDefault();
+    const obj = {
+      id_jadwal : this.state.id_jadwal,
+      tanggal : this.state.tanggal
+    }
+    console.log(obj);
+    fetch('http://localhost:5000/api/v1/jadwal', {
+      method : 'PUT',
+      headers : {'Content-Type': 'application/json'},
+      body : JSON.stringify(obj)
+    }).then(res => {
+      if(res.status < 400){
+        console.log("Success");
+      }
+      window.location = window.location;
+    }).catch((err) => console.log(err));
+  }
+
+  componentDidMount(){
+    let self = this;
+    fetch('http://localhost:5000/api/v1/jadwal', {
+      method : 'GET'
+    }).then((res) => {
+      if(res.status >= 400){
+        throw new Error("Bad Response");
+      }
+      return res.json();
+    }).then((data) => {
+      self.setState({schedule: data});
+    }).catch(err => {
+      console.log('This is Error Code ', err);
+    })
+  }
+
   render() {
     return (
         <div>
@@ -71,11 +169,11 @@ export class Jadwal extends Component {
                     <a href="/studio" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Studio</span>
                     </a>
-                    <a href="/kursi" className="list-group-item list-group-item-action">
-                        <span className="menu-collapsed">Kursi</span>
+                    <a href="/jadwal" className="list-group-item list-group-item-action">
+                        <span className="menu-collapsed">jadwal</span>
                     </a>
-                    <a href="/studio-kursi" className="list-group-item list-group-item-action">
-                        <span className="menu-collapsed">Studio Kursi</span>
+                    <a href="/studio-jadwal" className="list-group-item list-group-item-action">
+                        <span className="menu-collapsed">Studio jadwal</span>
                     </a>
                     <a href="/pemesanan" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Pemesanan</span>
@@ -159,126 +257,55 @@ export class Jadwal extends Component {
                 </thead>
                 <tbody>
                   {/* <!-- Jadwal --> */}
+                  {this.state.schedule.map(jadwal =>
                   <tr>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">9001</span>
+                          <span className="mb-0 text-sm">{jadwal.id_jadwal}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className="media align-items-center">
                         <div className="media-body">
-                          <span className="mb-0 text-sm">2019-01-01</span>
+                          <span className="mb-0 text-sm">{jadwal.tanggal}</span>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
+                      <button onClick={() => this.openModal(jadwal)} data-toggle="modal"
+                        data-target="#myModal" className="btn btn-sm btn-primary">Ubah</button>
+                      <button onClick={() => this.onDelete(jadwal)} className="btn btn-sm btn-primary">Hapus</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">9002</span>
+                  )}
+
+                  <div id="myModal" className="modal fade" isOpen={this.state.modalIsOpen} 
+                       onRequestClose={this.closeModal}>
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title">Tabel jadwal</h5>
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">2019-02-02</span>
+                        <form onSubmit={this.onSubmit} method='POST'>
+                        <div className="modal-body">
+                          <label style={{color:"black"}}>schedule Number</label>
+                          <input type="jadwal" className="form-control" onChange={this.onChangeTgl} 
+                            value={this.state.tanggal} placeholder="schedule"/>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">9003</span>
+                        <div className="modal-footer">
+                          <button type="submit" className="btn btn-primary">Save</button>
+                          <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
+                        </form>
                       </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">2019-03-03</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">9004</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">2019-04-04</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">9005</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">2019-05-05</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">9006</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="media align-items-center">
-                        <div className="media-body">
-                          <span className="mb-0 text-sm">2019-06-06</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href="#!" className="btn btn-sm btn-primary">Ubah</a>
-                      <a href="#!" className="btn btn-sm btn-primary">Hapus</a>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
+
                 </tbody>
               </table>
             </div>

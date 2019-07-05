@@ -170,8 +170,8 @@ componentDidMount(){
                     <a href="/studio" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Studio</span>
                     </a>
-                    <a href="/studio" className="list-group-item list-group-item-action">
-                        <span className="menu-collapsed">studio</span>
+                    <a href="/kursi" className="list-group-item list-group-item-action">
+                        <span className="menu-collapsed">Kursi</span>
                     </a>
                     <a href="/studio-studio" className="list-group-item list-group-item-action">
                         <span className="menu-collapsed">Studio studio</span>
