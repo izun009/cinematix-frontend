@@ -51,6 +51,11 @@ export class Login extends Component {
         <div className="collapse navbar-collapse" id="navbar-collapse-main">
           {/* <!-- Navbar items --> */}
           <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+              <a className="nav-link nav-link-icon" href="/">
+                <span className="nav-link-inner--text" style={{color:"white"}}>Home</span>
+              </a>
+            </li>
             <li className="nav-item">
               <a className="nav-link nav-link-icon" href="/signup">
                 <span className="nav-link-inner--text" style={{color:"white"}}>Sign Up</span>
@@ -58,7 +63,7 @@ export class Login extends Component {
             </li>
             <li className="nav-item">
               <a className="nav-link nav-link-icon" href="/login">
-                <span className="nav-link-inner--text">Login</span>
+                <span className="nav-link-inner--text">Sign In</span>
               </a>
             </li>
           </ul>

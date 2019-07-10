@@ -20,13 +20,14 @@ import StudioKursi from './views/StudioKursi';
 import Pemesanan from './views/Pemesanan';
 import Tiket from './views/Tiket';
 import Pembayaran from './views/Pembayaran';
+import main from './main/main';
 
 const hist = createBrowserHistory();
 
 ReactDOM.render(
     <Router history={hist}>
     <div>
-        <Route exact path="/" component={Indeks} />
+        <Route exact path="/" component={main} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/pembeli" component={Pembeli} />
         <Route exact path="/film" component={Film} />
