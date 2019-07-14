@@ -3,15 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.2.0",
+    "@material-ui/icons": "^4.2.1",
     "axios": "^0.18.1",
+    "classnames": "^2.2.6",
+    "compose": "^0.1.2",
     "history": "^4.9.0",
+    "pure": "^2.85.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1",
     "react-modal": "^3.8.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
-    "react-validation": "^3.0.7"
+    "react-validation": "^3.0.7",
+    "recompose": "^0.30.0"
   },
   "scripts": {
     "start": "react-scripts start",

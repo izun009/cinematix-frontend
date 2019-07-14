@@ -20,7 +20,7 @@ import StudioKursi from './views/StudioKursi';
 import Pemesanan from './views/Pemesanan';
 import Tiket from './views/Tiket';
 import Pembayaran from './views/Pembayaran';
-import main from './main/main';
+import main from './main/mainApp';
 
 const hist = createBrowserHistory();
 
