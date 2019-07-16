@@ -6,6 +6,30 @@ import pic3 from './pic/boom.jpg';
 
 
 export class main extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            film:[]
+        }
+    }
+
+    componentDidMount(){
+        let self = this;
+
+        fetch('http://localhost:5000/!#tampung-film',{
+        method : 'GET',
+        }).then(res => {
+            if(res.status > 400){
+                throw new Error("Bad Response");
+            }
+        }).then(data => {
+            self.setState({film: data});
+        });;
+    }
+
+
+
     render() {
         return (
 

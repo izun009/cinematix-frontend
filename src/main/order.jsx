@@ -4,7 +4,7 @@ import pic1 from './pic/joker.jpg';
 export default class order extends Component {
     render() {
         return (
-            <div>
+<div>
                 {/* navigasi */}
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark" style={{backgroundColor:"#0f1011cf"}}>
             <a href="#" class="navbar-brand">CINEMATIXXX</a>
@@ -28,12 +28,15 @@ export default class order extends Component {
 
         <div class="container" style={{marginTop:150,marginBottom:100}}>
         <div class="row">
+
+          {/* gambar film */}
             <div class="col">
                 <img class="card-img-top" src={pic1} alt="Card image top"
                     style={{maxWidth:"100%",maxHeight:"100%",height:"450px",width:"380px"}}
                 />
             </div>
 
+          {/* Deskripsi Film */}
           <div class="col">
             <dl class="row">
               <dt class="col-sm-3">Title</dt>
@@ -131,7 +134,7 @@ export default class order extends Component {
         <div class="row" style={{marginTop:100}}>
           <div class="col">
             <table>
-              
+
             </table>
           </div>
         </div>
