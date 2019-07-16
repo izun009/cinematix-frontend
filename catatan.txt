@@ -1,0 +1,10 @@
+# Catatan 
+
+1. Harus adanya table penampung untuk pembeli yang ingin membeli film yang ada (Carts)
+2. Harus adanya table penampung untuk jumlah film yang disediakan (Film)
+3. Untuk mengolah data (Seperti: ComponentDidMount, ComponentWillMount, dll)
+   tidak dapat digunakan didalam function, harus class
+ 
+ 4. Cara 1 : membuat pengolahan data di dalam fungsi
+    Cara 2 : membuat class untuk pengolahan data
+    Cara 3 : membuat routing dari function ke class agar dapat pengolahan data

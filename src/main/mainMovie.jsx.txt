@@ -1,4 +1,5 @@
-import React from 'react';
+// import React from 'react';
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +12,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+
 
 const styles = theme => ({
   root: {
@@ -99,6 +101,7 @@ function mainMovie(props) {
       </Typography>
 
     <Grid container className={classes.right}>
+
 
     <Card className={classes.card} alignItems="center" justify="center">
       <CardActionArea>
@@ -432,8 +435,6 @@ function mainMovie(props) {
         </Button>
       </CardActions>
     </Card>
-
-
     </Grid>
   </div>
   </div>
