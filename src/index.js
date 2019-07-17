@@ -22,6 +22,7 @@ import Tiket from './views/Tiket';
 import Pembayaran from './views/Pembayaran';
 import main from './main/mainApp';
 import order from './main/order';
+import pesanan from './main/pesanan';
 
 const hist = createBrowserHistory();
 
@@ -30,6 +31,7 @@ ReactDOM.render(
     <div>
         <Route exact path="/" component={main} />
         <Route exact path="/order" component={order} />
+        <Route exact path="/pesanan" component={pesanan} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/pembeli" component={Pembeli} />
         <Route exact path="/film" component={Film} />

@@ -5,7 +5,7 @@ import Link from '@material-ui/core/Link';
 import Button from './Button';
 import Typography from './Typography';
 import MovieLayout from './movieLayout';
-import first from './pic/bones.jpg';
+import first from './pic/sm.jpg';
 import second from './pic/679301.jpg';
 import third from './pic/machine.jpg';
 

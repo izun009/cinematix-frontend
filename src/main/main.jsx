@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import pic1 from './pic/joker.jpg';
-import pic2 from './pic/bones.jpg';
-import pic3 from './pic/boom.jpg';
+import pic1 from './pic/robot.jpg';
+import pic2 from './pic/sm.jpg';
+import pic3 from './pic/war.jpg';
 
 
 
@@ -32,7 +32,6 @@ export class main extends Component {
 
     render() {
         return (
-
 <div>
         <h2 class="display-2" style={{marginTop:50,marginBottom:45,textAlign:"center"}}>
             PLAYING NOW
@@ -47,7 +46,7 @@ export class main extends Component {
                     <a href="/order">
                         <img class="card-img-top" src={pic1} alt="Card image top" style={{height:"22rem"}}/>
                     <div class="card-body" style={{height:"6rem"}}>
-                        <h2 class="card-title">Joker: The Master of Clown</h2>
+                        <h2 class="card-title">Robot</h2>
                     </div>
                     </a>
                     <div class="card-footer">
@@ -60,7 +59,7 @@ export class main extends Component {
                     <a href="/order">
                         <img class="card-img-top" src={pic2} alt="Card image cap" style={{height:"22rem"}}/>
                     <div class="card-body" style={{height:"6rem"}}>
-                        <h2 class="card-title">Joker: The Master of Clown</h2>
+                        <h2 class="card-title">Robot</h2>
                     </div>
                     </a>
                     <div class="card-footer">
@@ -71,7 +70,7 @@ export class main extends Component {
                 <a href="/order">
                     <img class="card-img-top" src={pic3} alt="Card image cap" style={{height:"22rem"}}/>
                     <div class="card-body" style={{height:"6rem"}}>
-                        <h2 class="card-title">Joker: The Master of Clown</h2>
+                        <h2 class="card-title">Robot</h2>
                     </div>
                 </a>
                     <div class="card-footer">
@@ -87,7 +86,7 @@ export class main extends Component {
                 <a href="/order">
                     <img class="card-img-top" src={pic1} alt="Card image top" style={{height:"22rem"}}/>
                     <div class="card-body" style={{height:"6rem"}}>
-                        <h2 class="card-title">Joker: The Master of Clown</h2>
+                        <h2 class="card-title">Robot</h2>
                     </div>
                 </a>
                     <div class="card-footer">
@@ -98,7 +97,7 @@ export class main extends Component {
                 <a href="/order">
                     <img class="card-img-top" src={pic2} alt="Card image cap" style={{height:"22rem"}}/>
                     <div class="card-body" style={{height:"6rem"}}>
-                        <h2 class="card-title">Joker: The Master of Clown</h2>
+                        <h2 class="card-title">Robot</h2>
                     </div>
                 </a>
                     <div class="card-footer">
@@ -109,7 +108,7 @@ export class main extends Component {
                 <a href="/order">
                     <img class="card-img-top" src={pic3} alt="Card image cap" style={{height:"22rem"}}/>
                     <div class="card-body" style={{height:"6rem"}}>
-                        <h2 class="card-title">Joker: The Master of Clown</h2>
+                        <h2 class="card-title">Robot</h2>
                     </div>
                 </a>
                     <div class="card-footer">

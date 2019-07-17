@@ -1,0 +1,34 @@
+{
+  "ecmaVersion": 8,
+  "libs": [
+    "browser",
+    "react"
+  ],
+  "loadEagerly": [
+    "dashboard-react/src/main/*.jsx"
+  ],
+  "dontLoad": [],
+  "plugins": {
+    "es_modules": {},
+    "node": {},
+    "doc_comment": {
+      "fullDocs": true,
+      "strong": true
+    },
+    "complete_strings": {
+      "maxLength": 15
+    },
+    "node_resolve": {},
+    "modules": {
+      "dontLoad": "",
+      "load": "",
+      "modules": ""
+    },
+    "requirejs": {
+      "baseURL": "",
+      "paths": "",
+      "override": ""
+    },
+    "commonjs": {}
+  }
+}
