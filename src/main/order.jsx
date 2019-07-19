@@ -40,7 +40,7 @@ export default class order extends Component {
           <div class="col">
             <dl class="row">
               <dt class="col-sm-3">Title</dt>
-              <dd class="col-sm-9">AVENGER END GAME</dd>
+              <dd class="col-sm-9">Alita: The Battle Angel</dd>
 
               <dt class="col-sm-3">Durasi</dt>
               <dd class="col-sm-9"><p>90</p></dd>
